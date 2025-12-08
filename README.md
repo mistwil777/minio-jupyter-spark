@@ -51,9 +51,25 @@ docker-compose up -d
 ## 🛠️ Dockerfile Highlights (spark/Dockerfile)
 
 - Installs AWS SDK & Hadoop AWS to let PySpark talk to MinIO
-- Uses the latest `quay.io/jupyter/pyspark-notebook` as base
+- Uses the 2025-11-25 `quay.io/jupyter/pyspark-notebook` as base
 
 ---
+
+## 🚀 Launch you first SparkSession in Jupyter !
+
+```python
+from pyspark.sql import SparkSession
+spark = SparkSession.builder \
+  .master("local[*]") \
+  .appName("TP Bronze Silver Gold") \
+  .config("spark.jars.packages", "org.apache.hadoop:hadoop-aws:3.3.4") \
+  .config("spark.hadoop.fs.s3a.endpoint", "http://minio:9000") \
+  .config("spark.hadoop.fs.s3a.access.key", "minioadmin") \
+  .config("spark.hadoop.fs.s3a.secret.key", "minioadmin") \
+  .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
+  .config("spark.hadoop.fs.s3a.path.style.access", "true") \
+  .getOrCreate()
+```
 
 ## 🎉 License
 
