@@ -62,12 +62,19 @@ from pyspark.sql import SparkSession
 spark = SparkSession.builder \
   .master("local[*]") \
   .appName("TP Bronze Silver Gold") \
+    .config("spark.hadoop.fs.s3a.aws.credentials.provider", 
+            "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider") \
   .config("spark.jars.packages", "org.apache.hadoop:hadoop-aws:3.3.4") \
   .config("spark.hadoop.fs.s3a.endpoint", "http://minio:9000") \
   .config("spark.hadoop.fs.s3a.access.key", "minioadmin") \
   .config("spark.hadoop.fs.s3a.secret.key", "minioadmin") \
   .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
   .config("spark.hadoop.fs.s3a.path.style.access", "true") \
+  .config("fs.s3a.threads.keepalivetime", "60000")\
+  .config("fs.s3a.connection.establish.timeout", "60000")\
+  .config("fs.s3a.connection.timeout", "60000")\
+  .config("spark.hadoop.fs.s3a.v2", "false")\
+  .config("fs.s3a.multipart.purge.age", "60000")\
   .getOrCreate()
 ```
 
